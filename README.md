@@ -59,7 +59,6 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
 ## Author
 
 Hareesh Polla
- - [Twitter @hareeshbabu82](https://twitter.com/hareeshbabu82)
  - [LinkedIn](https://in.linkedin.com/in/hareeshbabu82)
 
 ## License
