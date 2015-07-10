@@ -8,19 +8,19 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
 ```bash
   git clone https://github.com/hareeshbabu82ns/AsyncVolley.git
 ```
-1. Or Copy classes in com.har.volley package into Existing Project
-1. Clone the Volley Project as Library project into Android Studio
+2. Or Copy classes in com.har.volley package into Existing Project
+3. Clone the Volley Project as Library project into Android Studio
 ```bash
   git clone https://android.googlesource.com/platform/frameworks/volley
 ```
-1. Instantiate Volley AsyncQueue with ApplicationContext
+4. Instantiate Volley AsyncQueue with ApplicationContext
 ```java
   //only to initialize
   com.har.volley.Volley.getAsyncQueue(applicationContext);
   //later just call to get singleton Queue
   com.har.volley.Volley.getAsyncQueue();
 ```
-1. Need to perform a AsyncTask
+5. Need to perform a AsyncTask
 ```java
       buttonFetch.setOnClickListener( (){
         ... (){
@@ -32,7 +32,7 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
                   .setTag("TaskTag"));
         }});
 ```
-1. Implement com.har.volley.AsyncTaskRequest.AsyncListener<T> to receive callbacks
+6. Implement com.har.volley.AsyncTaskRequest.AsyncListener<T> to receive callbacks
 ```java
     @Override
     public String performRequest(AsyncTaskRequest<String> request) throws Exception {
@@ -40,12 +40,12 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
     }
     @Override
     public void onResponse(String response) {
-      Toast.makeText(MainActivity.this, error.getLocalizedMessage(),
+      Toast.makeText(MainActivity.this, response,
             Toast.LENGTH_SHORT).show();
       progress.setVisibility(View.GONE);
     }
 ```
-1. Implement Response.ErrorListener to receive VolleyError
+7. Implement Response.ErrorListener to receive VolleyError
 ```java
   @Override
   public void onErrorResponse(VolleyError error) {
