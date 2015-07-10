@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">AsyncVolley</string>
+  <string name="hello_world">Hello world! This will be replaced by Google Store Response</string>
+  <string name="action_settings">Settings</string>
+</resources>
