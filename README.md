@@ -8,7 +8,7 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
 ```bash
   git clone https://github.com/hareeshbabu82ns/AsyncVolley.git
 ```
-2. Or Copy classes in com.har.volley package into Existing Project
+2. Copy the **AsyncVolleyLib** library project into existing project
 3. Clone the Volley Project as Library project into Android Studio
 ```bash
   git clone https://android.googlesource.com/platform/frameworks/volley
@@ -16,9 +16,9 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
 4. Instantiate Volley AsyncQueue with ApplicationContext
 ```java
   //only to initialize
-  com.har.volley.Volley.getAsyncQueue(applicationContext);
+  com.har.asyncvolleylib.Volley.getAsyncQueue(applicationContext);
   //later just call to get singleton Queue
-  com.har.volley.Volley.getAsyncQueue();
+  com.har.asyncvolleylib.Volley.getAsyncQueue();
 ```
 5. Need to perform a AsyncTask
 ```java
@@ -32,7 +32,7 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
                   .setTag("TaskTag"));
         }});
 ```
-6. Implement com.har.volley.AsyncTaskRequest.AsyncListener<T> to receive callbacks
+6. Implement com.har.asyncvolleylib.AsyncTaskRequest.AsyncListener<T> to receive callbacks
 ```java
     @Override
     public String performRequest(AsyncTaskRequest<String> request) throws Exception {

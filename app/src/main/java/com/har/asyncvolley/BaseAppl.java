@@ -2,7 +2,7 @@ package com.har.asyncvolley;
 
 import android.app.Application;
 
-import com.har.volley.Volley;
+import com.har.asyncvolleylib.Volley;
 
 /**
  * Created by hareesh on 7/10/15.
