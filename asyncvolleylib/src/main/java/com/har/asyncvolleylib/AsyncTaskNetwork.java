@@ -19,14 +19,14 @@ public class AsyncTaskNetwork extends BasicNetwork {
   @Override
   public NetworkResponse performRequest(Request<?> request) throws VolleyError {
     if (request instanceof AsyncTaskRequest) {
+      final AsyncTaskRequest<?> asyncTaskReq = (AsyncTaskRequest<?>) request;
       long requestStart = SystemClock.elapsedRealtime();
       try {
-        AsyncTaskRequest<?> asyncTaskReq = (AsyncTaskRequest<?>) request;
         final Object responseData = asyncTaskReq.performRequest();
         return new AsyncTaskNetworkResponse(responseData,
             SystemClock.elapsedRealtime() - requestStart);
       } catch (Exception ex) {
-        throw new VolleyError(ex);
+        throw new AsyncVolleyError(asyncTaskReq.getTaskID(), ex);
       }
     } else
       return super.performRequest(request);

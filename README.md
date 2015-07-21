@@ -35,20 +35,21 @@ Project is to extend Volley usage to perform AsyncTasks with any Object Type.
 6. Implement com.har.asyncvolleylib.AsyncTaskRequest.AsyncListener<T> to receive callbacks
 ```java
     @Override
-    public String performRequest(AsyncTaskRequest<String> request) throws Exception {
+    public String performRequest(int taskID, AsyncTaskRequest<String> request) throws Exception {
       //long running task
     }
     @Override
-    public void onResponse(String response) {
+    public void onResponse(int taskID, String response) {
       Toast.makeText(MainActivity.this, response,
             Toast.LENGTH_SHORT).show();
       progress.setVisibility(View.GONE);
     }
 ```
-7. Implement Response.ErrorListener to receive VolleyError
+7. Implement Response.ErrorListener to receive AsyncVolleyError which extends VolleyError
 ```java
   @Override
   public void onErrorResponse(VolleyError error) {
+    final taskID = ((AsyncVolleyError)error).getTaskID();
     Toast.makeText(MainActivity.this, error.getLocalizedMessage(),
           Toast.LENGTH_SHORT).show();
     progress.setVisibility(View.GONE);

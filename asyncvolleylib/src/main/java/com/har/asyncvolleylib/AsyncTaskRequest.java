@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 
 /**
@@ -13,13 +12,13 @@ import com.android.volley.VolleyLog;
  */
 public class AsyncTaskRequest<T> extends Request<T> {
 
+  private final int taskID;
   private AsyncListener<T> mListener;
   private Bundle bundle;
-  private final int taskID;
 
   public AsyncTaskRequest(Response.ErrorListener errListener) {
     super(Method.DEPRECATED_GET_OR_POST, "", errListener);
-    this.taskID = 0;
+    this.taskID = -1;
   }
 
   public AsyncTaskRequest(int taskID, Response.ErrorListener errListener) {
@@ -40,38 +39,19 @@ public class AsyncTaskRequest<T> extends Request<T> {
       VolleyLog.v("Response in %d millis", response.networkTimeMs);
       return Response.success((T) ((AsyncTaskNetworkResponse) response).mObjectData, null);
     }
-    return Response.error(new VolleyError("Parsing Response Failed"));
+    return Response.error(new AsyncVolleyError(getTaskID(), "Parsing Response Failed"));
   }
 
   protected T performRequest() throws Exception {
     if (mListener != null)
-      return mListener.performRequest(this);
+      return mListener.performRequest(taskID, this);
     return null;
   }
 
   @Override
   protected void deliverResponse(T response) {
     if (mListener != null)
-      mListener.onResponse(response);
-  }
-
-  /**
-   * Callback interface for delivering parsed responses.
-   */
-  public interface AsyncListener<T> extends Response.Listener<T> {
-    /**
-     * Called when a response is received.
-     */
-    public void onResponse(T response);
-
-    /**
-     * Called to perform actual background task
-     *
-     * @param request actual request which started this task
-     * @return result from the long running task
-     */
-    public T performRequest(AsyncTaskRequest<T> request) throws Exception;
-
+      mListener.onResponse(taskID, response);
   }
 
   public AsyncTaskRequest setAsyncListener(AsyncListener<T> mListener) {
@@ -79,16 +59,35 @@ public class AsyncTaskRequest<T> extends Request<T> {
     return this;
   }
 
+  public Bundle getBundle() {
+    return bundle;
+  }
+
   public AsyncTaskRequest setBundle(Bundle bundle) {
     this.bundle = bundle;
     return this;
   }
 
-  public Bundle getBundle() {
-    return bundle;
-  }
-
   public int getTaskID() {
     return taskID;
+  }
+
+  /**
+   * Callback interface for delivering parsed responses.
+   */
+  public interface AsyncListener<T> {
+    /**
+     * Called when a response is received.
+     */
+    public void onResponse(int taskID, T response);
+
+    /**
+     * Called to perform actual background task
+     *
+     * @param request actual request which started this task
+     * @return result from the long running task
+     */
+    public T performRequest(int taskID, AsyncTaskRequest<T> request) throws Exception;
+
   }
 }

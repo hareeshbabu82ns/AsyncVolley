@@ -18,6 +18,7 @@ import com.har.asyncvolleylib.Volley;
 public class MainActivity extends AppCompatActivity implements AsyncTaskRequest
     .AsyncListener<String>, Response.ErrorListener {
 
+  final StringBuffer buf = new StringBuffer();
   private TextView txtMsg;
   private Button butFetch;
   private ProgressBar progress;
@@ -67,27 +68,25 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskRequest
     return super.onOptionsItemSelected(item);
   }
 
-  final StringBuffer buf = new StringBuffer();
+  @Override
+  public void onErrorResponse(VolleyError error) {
+    Toast.makeText(MainActivity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+    progress.setVisibility(View.GONE);
+  }
 
   @Override
-  public void onResponse(String response) {
+  public void onResponse(int taskID, String response) {
     buf.append(response).append("\n");
     txtMsg.setText(buf.toString());
     progress.setVisibility(View.GONE);
   }
 
   @Override
-  public String performRequest(AsyncTaskRequest<String> request) throws Exception {
+  public String performRequest(int taskID, AsyncTaskRequest<String> request) throws Exception {
     long end = System.currentTimeMillis() + 5000;
     while (end > System.currentTimeMillis()) {
       //
     }
-    return "Performed Async Task at " + System.currentTimeMillis();
-  }
-
-  @Override
-  public void onErrorResponse(VolleyError error) {
-    Toast.makeText(MainActivity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-    progress.setVisibility(View.GONE);
+    return "Task: " + taskID + " Performed Async Task at " + System.currentTimeMillis();
   }
 }
